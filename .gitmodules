@@ -1,0 +1,3 @@
+[submodule "mbs/wubimb"]
+	path = mbs/wubimb
+	url = https://github.com/tenfyzhong/wubimb.git
