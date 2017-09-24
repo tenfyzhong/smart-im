@@ -3,7 +3,6 @@
 
 from parser import Parser
 from meta import Meta
-import logging
 
 
 class WubiParser(Parser):
@@ -14,9 +13,8 @@ class WubiParser(Parser):
     def parse(self, f):
         for line in f:
             words = line.split()
-            priority = 0
-            try:
+            if len(words) == 2:
+                yield Meta(words[0], words[1])
+            elif len(words) == 3:
                 priority = int(words[2])
-            except ValueError as e:
-                logging.error(e)
-            yield Meta(words[0], words[1], priority)
+                yield Meta(words[0], words[1], priority)

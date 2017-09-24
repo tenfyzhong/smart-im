@@ -29,6 +29,20 @@ class WubiParserTestCase(unittest.TestCase):
             metas,
             msg=None)
 
+    def test_parse_no_priority(self):
+        f = tempfile.TemporaryFile()
+        lines = ["a 工"]
+        f.writelines(lines)
+        f.seek(0)
+
+        p = WubiParser()
+        metas = []
+        for meta in p.parse(f):
+            metas.append(meta)
+
+        meta0 = Meta('a', r'工', 10000)
+        self.assertListEqual([meta0], metas)
+
 
 if __name__ == '__main__':
     unittest.main()

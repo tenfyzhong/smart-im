@@ -7,7 +7,7 @@ class Meta(object):
     码表词
     """
 
-    def __init__(self, code, word, priority):
+    def __init__(self, code, word, priority=10000):
         """
         code: 码
         word: 对应的词
