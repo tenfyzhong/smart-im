@@ -48,7 +48,7 @@ class Parser(object):
             metas.insert_meta(meta)
             self._metas[meta.code()] = metas
 
-    def get_words(self, code, begin, count, perfect_match=False):
+    def get_meta(self, code, begin, count, perfect_match=False):
         """根据code查找匹配的词
 
         :code: 用户输入的code
@@ -57,18 +57,21 @@ class Parser(object):
         :perfect_match: 完美匹配，如果为true，则要与code完全匹配才能匹配中，否则以code为前缀匹配
         :returns: ([metas], has_more)
         """
-        metas = self._metas.get(code, [])
-        has_more = begin + count < len(metas)
-        # BUG(tenfyzhong) 2017-09-23 18:39
-        # 如果begin小于len(metas)说明当前的列表还有未返回的
-        # 不然就要用_fuzzy_words来进行匹配了
-        result = ([], False) if has_more else \
-            (metas[begin:begin + count], has_more)
-        if perfect_match or len(result[0]) >= count:
-            return result
-        fuzzy_count = count - len(result)
-        fuzzy_begin = begin - len(metas)
-        return result + self._fuzzy_words(code, fuzzy_begin, fuzzy_count)
+        if code not in self._inverted_list:
+            return ([], False)
+
+        metas = self._inverted_list[code]
+        if begin >= metas.len():
+            return ([], False)
+
+        end = begin + count
+        if not perfect_match:
+            return (metas.metas()[begin:end], end < metas.len())
+
+        result = []
+        result = [meta for meta in metas.metas()
+                  if meta.code() == code and len(result) < count + 1]
+        return (result[0:count], len(result) > count)
 
     @staticmethod
     def _insert_inverted_list(inverted_list, key, metas):
