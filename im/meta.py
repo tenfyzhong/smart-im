@@ -42,12 +42,17 @@ class Meta(object):
         self._priority = priority
 
     def __cmp__(self, other):
-        if self._priority != other._priority:
-            return self._priority - other._priority
-        elif self._word < other._word:
+        """
+        大小规则：
+        代码越字的在前面
+        优先级越小的在前面
+        """
+        if self._code < other._code:
             return -1
-        elif self._word > other._word:
+        elif self._code > other._code:
             return 1
+        elif self._priority != other._priority:
+            return self._priority - other._priority
         else:
             return 0
 
