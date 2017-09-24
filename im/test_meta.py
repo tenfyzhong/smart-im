@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import unittest
-from meta import Meta, KeyMetas
+from .meta import Meta, KeyMetas
 
 
 class MetaTestCase(unittest.TestCase):
     def test_sort(self):
-        a = [Meta('a', r'东', 256), Meta('a', r'工', 255)]
-        a.sort(cmp=None, key=None, reverse=False)
+        meta0 = Meta('a', r'东', 256)
+        meta1 = Meta('a', r'工', 255)
+        a = [meta0, meta1]
+        a.sort()
         self.assertListEqual(
             a,
-            [Meta('a', r'工', 255), Meta('a', r'东', 256)])
+            [meta1, meta0])
 
     def test_cmp0(self):
         self.assertEqual(

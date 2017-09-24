@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from parser import Parser
-from meta import Meta
-from wubi_parser import WubiParser
+from .parser import Parser
+from .meta import Meta
+from .wubi_parser import WubiParser
 
 
 __version__ = '0.0.1'

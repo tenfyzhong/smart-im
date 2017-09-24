@@ -62,6 +62,11 @@ class Meta(object):
     def __le__(self, other):
         return self.__cmp__(other) <= 0
 
+    def __eq__(self, other):
+        return self._code == other._code and \
+            self._word == other._word and  \
+            self._priority == other._priority
+
     def __str__(self):
         return "<%s,%s,%d>" % (self._code, self._word, self._priority)
 
@@ -79,14 +84,14 @@ class KeyMetas(object):
         length = len(self._metas)
         i = 0
         j = length - 1
-        mid = (i+j)/2
+        mid = (i+j)//2
         while i != j:
             if self._metas[mid] < meta:
                 i = mid + 1
             else:
                 j = mid - 1
 
-            mid = (i + j) / 2
+            mid = (i + j) // 2
 
         if self._metas[mid] < meta:
             self._metas.insert(mid+1, meta)
@@ -120,5 +125,5 @@ class KeyMetas(object):
         result = '<%s,' % self._key
         for meta in self._metas:
             result += str(meta) + ','
-        result[-1] = '>'
-        return result
+            result[-1] = '>'
+            return result

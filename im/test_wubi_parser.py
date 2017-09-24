@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 import tempfile
-from wubi_parser import WubiParser
-from meta import Meta
+from .wubi_parser import WubiParser
+from .meta import Meta
 
 
 class WubiParserTestCase(unittest.TestCase):
@@ -11,7 +11,7 @@ class WubiParserTestCase(unittest.TestCase):
         self._wubi_parser = WubiParser()
 
     def test_parse(self):
-        f = tempfile.TemporaryFile()
+        f = tempfile.TemporaryFile(mode='w+')
         lines = ["a 工 116\n", "thyg 自主 112\n", "gidr 还愿 112\n"]
         f.writelines(lines)
         f.seek(0)
@@ -30,7 +30,7 @@ class WubiParserTestCase(unittest.TestCase):
             msg=None)
 
     def test_parse_no_priority(self):
-        f = tempfile.TemporaryFile()
+        f = tempfile.TemporaryFile(mode='w+')
         lines = ["a 工"]
         f.writelines(lines)
         f.seek(0)
