@@ -13,8 +13,8 @@ class Meta(object):
         word: 对应的词
         priority: 这个词所在同码中的优先级
         """
-        self._code = code
-        self._word = word
+        self._code = code.strip()
+        self._word = word.strip()
         self._priority = priority
 
     def code(self):
