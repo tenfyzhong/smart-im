@@ -51,6 +51,9 @@ class Meta(object):
         else:
             return 0
 
+    def __str__(self):
+        return "<%s,%s,%d>" % (self._code, self._word, self._priority)
+
 
 class CodeMetas(object):
     """
@@ -63,10 +66,26 @@ class CodeMetas(object):
     def insert_meta(self, meta):
         self._metas.append(meta)
 
+    def insert_list(self, metas):
+        self._metas += metas
+
     def sort(self):
         """对metas进行排序
         """
-        self._meta.sort()
+        self._metas.sort(reverse=True)
 
     def code(self):
         return self._code
+
+    def metas(self):
+        return self._metas
+
+    def len(self):
+        return len(self._metas)
+
+    def __str__(self):
+        result = '<%s,' % self._code
+        for meta in self._metas:
+            result += str(meta) + ','
+        result += '>'
+        return result

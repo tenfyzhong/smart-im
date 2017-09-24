@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from meta import CodeMetas
 
 
 class Parser(object):
@@ -9,34 +10,43 @@ class Parser(object):
 
     def __init__(self):
         self._metas = {}
+        self._inverted_list = {}
 
     def parse(self, path):
+        """
+        解释码表，返回Meta列表，或者yield Meta列表
+        """
         raise NotImplementedError
+
+    def load(self, paths):
+        """
+        加载码表
+        :paths: 码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优
+        先级比后面的高，所以后面文件出现的会直接忽略掉，对于存在自定义码表文件的，
+        自定义文件应该放在前面
+        """
+        def meta_key(meta):
+            return meta.code() + ":" + meta.word()
+        meta_set = set()
+        for path in paths:
+            for meta in self.parse(path):
+                key = meta_key(meta)
+                if key not in meta_set:
+                    self.insert_meta(meta)
+                    meta_set.add(key)
+
+        self._sort_metas()
+        self._make_inverted_list()
 
     def insert_meta(self, meta):
         """ 插入新的meta
         """
         if meta.code() in self._metas:
-            self._metas[meta.code()].append(meta)
+            self._metas[meta.code()].insert_meta(meta)
         else:
-            self._metas[meta.code()] = [meta]
-
-    def _fuzzy_words(self, code, begin, count):
-        prefix_matchs = [(k, m) for k, m in self._metas
-                         if k != code and k.startwith(code)]
-        prefix_matchs.sort(lambda l, r: l[0] < r[0]
-                           if len(l[0]) == len(r[0])
-                           else len(l[0]) < len(r[0]))
-        result = []
-        for (_, metas) in prefix_matchs:
-            for meta in metas:
-                if begin > 0:
-                    begin -= 1
-                    continue
-                result.append(meta)
-                if len(result) >= count:
-                    return result
-        return result
+            metas = CodeMetas(meta.code())
+            metas.insert_meta(meta)
+            self._metas[meta.code()] = metas
 
     def get_words(self, code, begin, count, perfect_match=False):
         """根据code查找匹配的词
@@ -49,6 +59,9 @@ class Parser(object):
         """
         metas = self._metas.get(code, [])
         has_more = begin + count < len(metas)
+        # BUG(tenfyzhong) 2017-09-23 18:39
+        # 如果begin小于len(metas)说明当前的列表还有未返回的
+        # 不然就要用_fuzzy_words来进行匹配了
         result = ([], False) if has_more else \
             (metas[begin:begin + count], has_more)
         if perfect_match or len(result[0]) >= count:
@@ -58,9 +71,45 @@ class Parser(object):
         return result + self._fuzzy_words(code, fuzzy_begin, fuzzy_count)
 
     @staticmethod
-    def sort_metas(func):
-        def sorter_parser(self, path):
-            func(self, path)
-            for code, meta in self._metas:
-                meta.sort()
-            return func
+    def _insert_inverted_list(inverted_list, key, metas):
+        if key in inverted_list:
+            lst = inverted_list[key]
+            length = len(lst)
+            i = 0
+            j = length - 1
+            mid = (i+j)/2
+            code = metas.code()
+            while i != j:
+                if lst[mid].code() < code:
+                    i = mid + 1
+                else:
+                    j = mid - 1
+                mid = (i+j)/2
+
+            if lst[mid].code() < code:
+                lst.insert(mid+1, metas)
+            else:
+                lst.insert(mid, metas)
+        else:
+            inverted_list[key] = [metas]
+
+    def _sort_metas(self):
+        for code in self._metas:
+            self._metas[code].sort()
+
+    def _make_inverted_list(self):
+        inverted_list = {}
+        for code in self._metas:
+            strs = [code[0:end] for end in range(1, len(code)+1)]
+            metas = self._metas[code]
+            for s in strs:
+                self._insert_inverted_list(
+                    inverted_list,
+                    s,
+                    metas)
+
+        for k in inverted_list:
+            metas = CodeMetas(k)
+            for code_meta in inverted_list[k]:
+                metas.insert_list(code_meta.metas())
+            self._inverted_list[k] = metas
