@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import unittest
+import tempfile
 from wubi_parser import WubiParser
 from meta import Meta
 
@@ -11,9 +11,14 @@ class WubiParserTestCase(unittest.TestCase):
         self._wubi_parser = WubiParser()
 
     def test_parse(self):
+        f = tempfile.TemporaryFile()
+        lines = ["a 工 116\n", "thyg 自主 112\n", "gidr 还愿 112\n"]
+        f.writelines(lines)
+        f.seek(0)
+
+        p = WubiParser()
         metas = []
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        for meta in self._wubi_parser.parse(dir_path+'/../testdata/wubi.txt'):
+        for meta in p.parse(f):
             metas.append(meta)
 
         meta0 = Meta('a', r'工', 116)

@@ -11,9 +11,10 @@ class Parser(object):
     def __init__(self):
         self._inverted_list = {}
 
-    def parse(self, path):
+    def parse(self, f):
         """
         解释码表，返回Meta列表，或者yield Meta列表
+        :f: 文件对象
         """
         raise NotImplementedError
 

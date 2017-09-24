@@ -122,4 +122,3 @@ class KeyMetas(object):
             result += str(meta) + ','
         result[-1] = '>'
         return result
-
