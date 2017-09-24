@@ -14,37 +14,59 @@ class Meta(object):
         priority: 这个词所在同码中的优先级
         """
         self._code = code
-        self.word = word
+        self._word = word
         self._priority = priority
 
     def code(self):
         """ 返回当前的码
         :returns: 当前的码
-
         """
         return self._code
 
     def word(self):
         """ 当前码对应的词
         :returns: 当前的词
-
         """
         return self._word
 
     def priority(self):
         """ 当前的优先级
         :returns: 优先级
-
         """
         return self._priority
 
     def set_priority(self, priority):
-        """TODO: 更新优先级
-
+        """更新优先级
         :priority: 新的优先级
-
         """
         self._priority = priority
 
     def __cmp__(self, other):
-        return self.priority.__cmp__(other)
+        if self._priority != other._priority:
+            return self._priority - other._priority
+        elif self._word < other._word:
+            return -1
+        elif self._word > other._word:
+            return 1
+        else:
+            return 0
+
+
+class CodeMetas(object):
+    """
+    每个代码对应的meta列表
+    """
+    def __init__(self, code):
+        self._code = code
+        self._metas = []
+
+    def insert_meta(self, meta):
+        self._metas.append(meta)
+
+    def sort(self):
+        """对metas进行排序
+        """
+        self._meta.sort()
+
+    def code(self):
+        return self._code
