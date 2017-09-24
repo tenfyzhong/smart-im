@@ -56,31 +56,59 @@ class Meta(object):
         else:
             return 0
 
+    def __lt__(self, other):
+        return self.__cmp__(other) < 0
+
+    def __le__(self, other):
+        return self.__cmp__(other) <= 0
+
     def __str__(self):
         return "<%s,%s,%d>" % (self._code, self._word, self._priority)
 
 
-class CodeMetas(object):
+class KeyMetas(object):
     """
     每个代码对应的meta列表
     """
-    def __init__(self, code):
-        self._code = code
-        self._metas = []
+    def __init__(self, key):
+        self._key = key
+        self._metas = None
 
-    def insert_meta(self, meta):
-        self._metas.append(meta)
+    def _find_insert(self, meta):
+        assert self._metas is not None
+        length = len(self._metas)
+        i = 0
+        j = length - 1
+        mid = (i+j)/2
+        while i != j:
+            if self._metas[mid] < meta:
+                i = mid + 1
+            else:
+                j = mid - 1
 
-    def insert_list(self, metas):
-        self._metas += metas
+            mid = (i + j) / 2
 
-    def sort(self):
-        """对metas进行排序
+        if self._metas[mid] < meta:
+            self._metas.insert(mid+1, meta)
+        else:
+            self._metas.insert(mid, meta)
+
+    def insert(self, meta):
+        """找到合适的位置进行插入
+        合适的位置定义为
+        代码字典序越小，则排在前面
+        代码相同，则priority的小在前面
+        priority相同，则先插入的在前面
+
+        :meta: 需要插入的元素
         """
-        self._metas.sort(reverse=True)
+        if not self._metas:
+            self._metas = [meta]
+        else:
+            self._find_insert(meta)
 
-    def code(self):
-        return self._code
+    def key(self):
+        return self._key
 
     def metas(self):
         return self._metas
@@ -89,8 +117,9 @@ class CodeMetas(object):
         return len(self._metas)
 
     def __str__(self):
-        result = '<%s,' % self._code
+        result = '<%s,' % self._key
         for meta in self._metas:
             result += str(meta) + ','
-        result += '>'
+        result[-1] = '>'
         return result
+
