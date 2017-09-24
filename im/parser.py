@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from meta import CodeMetas
+from meta import KeyMetas
 
 
 class Parser(object):
@@ -9,7 +9,6 @@ class Parser(object):
     """
 
     def __init__(self):
-        self._metas = {}
         self._inverted_list = {}
 
     def parse(self, path):
@@ -35,18 +34,19 @@ class Parser(object):
                     self.insert_meta(meta)
                     meta_set.add(key)
 
-        self._sort_metas()
-        self._make_inverted_list()
-
     def insert_meta(self, meta):
         """ 插入新的meta
         """
-        if meta.code() in self._metas:
-            self._metas[meta.code()].insert_meta(meta)
-        else:
-            metas = CodeMetas(meta.code())
-            metas.insert_meta(meta)
-            self._metas[meta.code()] = metas
+        if not meta.code() or not meta.word():
+            return
+
+        strs = [meta.code()[0:end] for end in range(1, len(meta.code())+1)]
+        for s in strs:
+            if s not in self._inverted_list:
+                self._inverted_list[s] = KeyMetas(s)
+
+            key_metas = self._inverted_list[s]
+            key_metas.insert(meta)
 
     def get_meta(self, code, begin, count, perfect_match=False):
         """根据code查找匹配的词
@@ -72,47 +72,3 @@ class Parser(object):
         result = [meta for meta in metas.metas()
                   if meta.code() == code and len(result) < count + 1]
         return (result[0:count], len(result) > count)
-
-    @staticmethod
-    def _insert_inverted_list(inverted_list, key, metas):
-        if key in inverted_list:
-            lst = inverted_list[key]
-            length = len(lst)
-            i = 0
-            j = length - 1
-            mid = (i+j)/2
-            code = metas.code()
-            while i != j:
-                if lst[mid].code() < code:
-                    i = mid + 1
-                else:
-                    j = mid - 1
-                mid = (i+j)/2
-
-            if lst[mid].code() < code:
-                lst.insert(mid+1, metas)
-            else:
-                lst.insert(mid, metas)
-        else:
-            inverted_list[key] = [metas]
-
-    def _sort_metas(self):
-        for code in self._metas:
-            self._metas[code].sort()
-
-    def _make_inverted_list(self):
-        inverted_list = {}
-        for code in self._metas:
-            strs = [code[0:end] for end in range(1, len(code)+1)]
-            metas = self._metas[code]
-            for s in strs:
-                self._insert_inverted_list(
-                    inverted_list,
-                    s,
-                    metas)
-
-        for k in inverted_list:
-            metas = CodeMetas(k)
-            for code_meta in inverted_list[k]:
-                metas.insert_list(code_meta.metas())
-            self._inverted_list[k] = metas
