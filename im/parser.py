@@ -37,9 +37,14 @@ class Parser(object):
 
     def insert_meta(self, meta):
         """ 插入新的meta
+        对meta的code产生所有前缀子串，插入到对应子串的列表里
+
+        :meta: 要插入的meta
+
+        :return: True为插入成功
         """
         if not meta.code() or not meta.word():
-            return
+            return False
 
         strs = [meta.code()[0:end] for end in range(1, len(meta.code())+1)]
         for s in strs:
@@ -48,6 +53,8 @@ class Parser(object):
 
             key_metas = self._inverted_list[s]
             key_metas.insert(meta)
+
+        return True
 
     def get_meta(self, code, begin, count, perfect_match=False):
         """根据code查找匹配的词

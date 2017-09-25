@@ -15,6 +15,13 @@ class ParserTestCase(unittest.TestCase):
         p.insert_meta(meta1)
         self.assertEqual(p._inverted_list['a']._metas[1], meta1, msg=None)
 
+    def test_empty(self):
+        p = Parser()
+        meta0 = Meta('', r'工')
+        self.assertFalse(p.insert_meta(meta0))
+        meta1 = Meta('a', r'')
+        self.assertFalse(p.insert_meta(meta1))
+
     def setUp(self):
         self.get_meta_parser = Parser()
         self.meta0 = Meta('a', r'工', 156)
