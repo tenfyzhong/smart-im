@@ -85,11 +85,11 @@ class KeyMetas(object):
         i = 0
         j = length - 1
         mid = (i+j)//2
-        while i != j:
+        while i < j:
             if self._metas[mid] < meta:
                 i = mid + 1
             else:
-                j = mid - 1
+                j = mid
 
             mid = (i + j) // 2
 
