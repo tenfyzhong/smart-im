@@ -5,7 +5,7 @@ from .meta import Meta
 from .wubi_parser import WubiParser
 
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 __revision__ = ''
 __all__ = [
     'Parser',
