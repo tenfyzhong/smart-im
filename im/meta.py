@@ -35,12 +35,6 @@ class Meta(object):
         """
         return self._priority
 
-    def set_priority(self, priority):
-        """更新优先级
-        :priority: 新的优先级
-        """
-        self._priority = priority
-
     def __cmp__(self, other):
         """
         大小规则：
@@ -58,9 +52,6 @@ class Meta(object):
 
     def __lt__(self, other):
         return self.__cmp__(other) < 0
-
-    def __le__(self, other):
-        return self.__cmp__(other) <= 0
 
     def __eq__(self, other):
         return self._code == other._code and \
