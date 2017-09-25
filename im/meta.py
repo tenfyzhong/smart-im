@@ -127,3 +127,6 @@ class KeyMetas(object):
             result += str(meta) + ','
             result[-1] = '>'
             return result
+
+    def __eq__(self, other):
+        return self._key == other._key and self._metas == other._metas

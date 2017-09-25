@@ -18,18 +18,18 @@ class Parser(object):
         """
         raise NotImplementedError
 
-    def load(self, paths):
+    def load(self, files):
         """
         加载码表
-        :paths: 码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优
+        :files: 码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优
         先级比后面的高，所以后面文件出现的会直接忽略掉，对于存在自定义码表文件的，
         自定义文件应该放在前面
         """
         def meta_key(meta):
             return meta.code() + ":" + meta.word()
         meta_set = set()
-        for path in paths:
-            for meta in self.parse(path):
+        for f in files:
+            for meta in self.parse(f):
                 key = meta_key(meta)
                 if key not in meta_set:
                     self.insert_meta(meta)
