@@ -1,0 +1,190 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package im</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>im</strong></big></big> (version 0.1.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/zhongtenghui/code/smart-im/im/__init__.py">/Users/zhongtenghui/code/smart-im/im/__init__.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;-*-&nbsp;coding:&nbsp;utf-8&nbsp;-*-</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="im.meta.html">meta</a><br>
+<a href="im.parser.html">parser</a><br>
+</td><td width="25%" valign=top><a href="im.test_meta.html">test_meta</a><br>
+<a href="im.test_parser.html">test_parser</a><br>
+</td><td width="25%" valign=top><a href="im.test_wubi_parser.html">test_wubi_parser</a><br>
+<a href="im.wubi_parser.html">wubi_parser</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="im.meta.html#Meta">im.meta.Meta</a>
+</font></dt><dt><font face="helvetica, arial"><a href="im.parser.html#Parser">im.parser.Parser</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="im.wubi_parser.html#WubiParser">im.wubi_parser.WubiParser</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Meta">class <strong>Meta</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>码表词<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Meta-__cmp__"><strong>__cmp__</strong></a>(self, other)</dt><dd><tt>大小规则：<br>
+代码越字的在前面<br>
+优先级越小的在前面</tt></dd></dl>
+
+<dl><dt><a name="Meta-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="Meta-__init__"><strong>__init__</strong></a>(self, code, word, priority<font color="#909090">=10000</font>)</dt><dd><tt>code:&nbsp;码<br>
+word:&nbsp;对应的词<br>
+priority:&nbsp;这个词所在同码中的优先级</tt></dd></dl>
+
+<dl><dt><a name="Meta-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="Meta-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Meta-code"><strong>code</strong></a>(self)</dt><dd><tt>返回当前的码<br>
+:returns:&nbsp;当前的码</tt></dd></dl>
+
+<dl><dt><a name="Meta-priority"><strong>priority</strong></a>(self)</dt><dd><tt>当前的优先级<br>
+:returns:&nbsp;优先级</tt></dd></dl>
+
+<dl><dt><a name="Meta-word"><strong>word</strong></a>(self)</dt><dd><tt>当前码对应的词<br>
+:returns:&nbsp;当前的词</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Parser">class <strong>Parser</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>码表解释器<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Parser-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Parser-get_meta"><strong>get_meta</strong></a>(self, code, begin, count, perfect_match<font color="#909090">=False</font>)</dt><dd><tt>根据code查找匹配的词<br>
+&nbsp;<br>
+:code:&nbsp;用户输入的code<br>
+:begin:&nbsp;开始的位置<br>
+:count:&nbsp;返回的个数<br>
+:perfect_match:&nbsp;完美匹配，如果为true，则要与code完全匹配才能匹配中，否则以code为前缀匹配<br>
+:returns:&nbsp;([metas],&nbsp;has_more)</tt></dd></dl>
+
+<dl><dt><a name="Parser-insert_meta"><strong>insert_meta</strong></a>(self, meta)</dt><dd><tt>插入新的meta<br>
+对meta的code产生所有前缀子串，插入到对应子串的列表里<br>
+&nbsp;<br>
+:meta:&nbsp;要插入的meta<br>
+&nbsp;<br>
+:return:&nbsp;True为插入成功</tt></dd></dl>
+
+<dl><dt><a name="Parser-load"><strong>load</strong></a>(self, files)</dt><dd><tt>加载码表<br>
+:files:&nbsp;码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优<br>
+先级比后面的高，所以后面文件出现的会直接忽略掉，对于存在自定义码表文件的，<br>
+自定义文件应该放在前面</tt></dd></dl>
+
+<dl><dt><a name="Parser-parse"><strong>parse</strong></a>(self, f)</dt><dd><tt>解释码表，返回<a href="#Meta">Meta</a>列表，或者yield&nbsp;<a href="#Meta">Meta</a>列表<br>
+:f:&nbsp;文件对象</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="WubiParser">class <strong>WubiParser</strong></a>(<a href="im.parser.html#Parser">im.parser.Parser</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="im.wubi_parser.html#WubiParser">WubiParser</a></dd>
+<dd><a href="im.parser.html#Parser">im.parser.Parser</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="WubiParser-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="WubiParser-parse"><strong>parse</strong></a>(self, f)</dt></dl>
+
+<hr>
+Methods inherited from <a href="im.parser.html#Parser">im.parser.Parser</a>:<br>
+<dl><dt><a name="WubiParser-get_meta"><strong>get_meta</strong></a>(self, code, begin, count, perfect_match<font color="#909090">=False</font>)</dt><dd><tt>根据code查找匹配的词<br>
+&nbsp;<br>
+:code:&nbsp;用户输入的code<br>
+:begin:&nbsp;开始的位置<br>
+:count:&nbsp;返回的个数<br>
+:perfect_match:&nbsp;完美匹配，如果为true，则要与code完全匹配才能匹配中，否则以code为前缀匹配<br>
+:returns:&nbsp;([metas],&nbsp;has_more)</tt></dd></dl>
+
+<dl><dt><a name="WubiParser-insert_meta"><strong>insert_meta</strong></a>(self, meta)</dt><dd><tt>插入新的meta<br>
+对meta的code产生所有前缀子串，插入到对应子串的列表里<br>
+&nbsp;<br>
+:meta:&nbsp;要插入的meta<br>
+&nbsp;<br>
+:return:&nbsp;True为插入成功</tt></dd></dl>
+
+<dl><dt><a name="WubiParser-load"><strong>load</strong></a>(self, files)</dt><dd><tt>加载码表<br>
+:files:&nbsp;码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优<br>
+先级比后面的高，所以后面文件出现的会直接忽略掉，对于存在自定义码表文件的，<br>
+自定义文件应该放在前面</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="im.parser.html#Parser">im.parser.Parser</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['Parser', 'Meta', 'WubiParser', '__version__', '__revision__']<br>
+<strong>__revision__</strong> = ''<br>
+<strong>__version__</strong> = '0.1.0'</td></tr></table>
+</body></html>

@@ -1,0 +1,25 @@
+language: python
+
+python:
+  - 3.6
+  - 3.5
+  - 3.4
+  - 3.3
+  - 2.7
+
+sudo: false
+before_install:
+  - git submodule update --init --recursive
+
+install:
+  - pip install -r requirements.txt
+
+script: pytest im
+
+after_success:
+  - pytest --cov=./im/
+  - codecov -t $CODECOV_TOKEN
+
+cache:
+  directories:
+    - $HOME/.cache/pip  # Python packages from pip

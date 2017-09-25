@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from meta import CodeMetas
+from .meta import KeyMetas
 
 
 class Parser(object):
@@ -9,44 +9,52 @@ class Parser(object):
     """
 
     def __init__(self):
-        self._metas = {}
         self._inverted_list = {}
 
-    def parse(self, path):
+    def parse(self, f):
         """
         解释码表，返回Meta列表，或者yield Meta列表
+        :f: 文件对象
         """
         raise NotImplementedError
 
-    def load(self, paths):
+    def load(self, files):
         """
         加载码表
-        :paths: 码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优
+        :files: 码表文件路径，支持多个码表文件，同样代码、同样的词，前面出现的优
         先级比后面的高，所以后面文件出现的会直接忽略掉，对于存在自定义码表文件的，
         自定义文件应该放在前面
         """
         def meta_key(meta):
             return meta.code() + ":" + meta.word()
         meta_set = set()
-        for path in paths:
-            for meta in self.parse(path):
+        for f in files:
+            for meta in self.parse(f):
                 key = meta_key(meta)
                 if key not in meta_set:
                     self.insert_meta(meta)
                     meta_set.add(key)
 
-        self._sort_metas()
-        self._make_inverted_list()
-
     def insert_meta(self, meta):
         """ 插入新的meta
+        对meta的code产生所有前缀子串，插入到对应子串的列表里
+
+        :meta: 要插入的meta
+
+        :return: True为插入成功
         """
-        if meta.code() in self._metas:
-            self._metas[meta.code()].insert_meta(meta)
-        else:
-            metas = CodeMetas(meta.code())
-            metas.insert_meta(meta)
-            self._metas[meta.code()] = metas
+        if not meta.code() or not meta.word():
+            return False
+
+        strs = [meta.code()[0:end] for end in range(1, len(meta.code())+1)]
+        for s in strs:
+            if s not in self._inverted_list:
+                self._inverted_list[s] = KeyMetas(s)
+
+            key_metas = self._inverted_list[s]
+            key_metas.insert(meta)
+
+        return True
 
     def get_meta(self, code, begin, count, perfect_match=False):
         """根据code查找匹配的词
@@ -72,47 +80,3 @@ class Parser(object):
         result = [meta for meta in metas.metas()
                   if meta.code() == code and len(result) < count + 1]
         return (result[0:count], len(result) > count)
-
-    @staticmethod
-    def _insert_inverted_list(inverted_list, key, metas):
-        if key in inverted_list:
-            lst = inverted_list[key]
-            length = len(lst)
-            i = 0
-            j = length - 1
-            mid = (i+j)/2
-            code = metas.code()
-            while i != j:
-                if lst[mid].code() < code:
-                    i = mid + 1
-                else:
-                    j = mid - 1
-                mid = (i+j)/2
-
-            if lst[mid].code() < code:
-                lst.insert(mid+1, metas)
-            else:
-                lst.insert(mid, metas)
-        else:
-            inverted_list[key] = [metas]
-
-    def _sort_metas(self):
-        for code in self._metas:
-            self._metas[code].sort()
-
-    def _make_inverted_list(self):
-        inverted_list = {}
-        for code in self._metas:
-            strs = [code[0:end] for end in range(1, len(code)+1)]
-            metas = self._metas[code]
-            for s in strs:
-                self._insert_inverted_list(
-                    inverted_list,
-                    s,
-                    metas)
-
-        for k in inverted_list:
-            metas = CodeMetas(k)
-            for code_meta in inverted_list[k]:
-                metas.insert_list(code_meta.metas())
-            self._inverted_list[k] = metas

@@ -1,3 +1,7 @@
 *.pyc
 *.bak
 .ropeproject/
+.cache/
+.coverage
+coverage.xml
+.DS_Store
