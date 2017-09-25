@@ -2,3 +2,5 @@
 *.bak
 .ropeproject/
 .cache/
+.coverage
+coverage.xml

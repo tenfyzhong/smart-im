@@ -13,6 +13,10 @@ install:
 
 script: pytest im
 
+after_success:
+  - pytest --cov=./im/
+  - codecov -t $CODECOV_TOKEN
+
 cache:
   directories:
     - $HOME/.cache/pip  # Python packages from pip
