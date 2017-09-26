@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import unittest
-from .parser import Parser
-from .meta import Meta
+from im.parser import Parser
+from im.meta import Meta
 
 
 class ParserTestCase(unittest.TestCase):

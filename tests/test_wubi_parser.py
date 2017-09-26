@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 import tempfile
-from .wubi_parser import WubiParser
-from .meta import Meta, KeyMetas
+from im.wubi_parser import WubiParser
+from im.meta import Meta, KeyMetas
 
 
 class WubiParserTestCase(unittest.TestCase):

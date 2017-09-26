@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import unittest
-from .meta import Meta, KeyMetas
+from im.meta import Meta, KeyMetas
 
 
 class MetaTestCase(unittest.TestCase):
